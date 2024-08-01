@@ -12,6 +12,7 @@ body {
 .directory {
     cursor: pointer;
     margin: 10px 0;
+    position: relative;
 }
 
 .directory-name {
@@ -21,4 +22,11 @@ body {
 .files {
     display: none;
     margin-left: 20px;
+}
+
+.connection-line {
+    width: 2px;
+    height: 10px;
+    background-color: #ccc;
+    margin: 0 auto;
 }

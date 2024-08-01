@@ -9,6 +9,8 @@ function toggleFiles(fileId) {
 
 // Initial setup to hide the files
 document.addEventListener('DOMContentLoaded', (event) => {
-    const filesDiv = document.getElementById('root-files');
-    filesDiv.style.display = 'none';
+    const fileDivs = document.querySelectorAll('.files');
+    fileDivs.forEach(fileDiv => {
+        fileDiv.style.display = 'none';
+    });
 });
