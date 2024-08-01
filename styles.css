@@ -1,1 +1,24 @@
-body { font-family: Arial, sans-serif; background-color: #f0f0f0; }
+body { 
+    font-family: 'Arial', sans-serif; 
+    background-color: #f0f0f0; 
+    text-align: center; 
+}
+
+.container {
+    margin: auto;
+    width: 80%;
+}
+
+.directory {
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.directory-name {
+    font-weight: bold;
+}
+
+.files {
+    display: none;
+    margin-left: 20px;
+}

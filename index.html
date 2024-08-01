@@ -1,13 +1,19 @@
-echo "<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Welcome to DomFico.github.io</title>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is your GitHub Pages site.</p>
-    <a href=\"test.txt\" download>Download Test File</a>
-    <script src=\"main.js\"></script>
+    <div class="container">
+        <h1>Directory Structure</h1>
+        <div class="directory" onclick="toggleFiles('root-files')">
+            <span class="directory-name">Root</span>
+            <div class="files" id="root-files">
+                <div><a href="test.txt">test.txt</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
 </body>
-</html>" > index.html
+</html>
