@@ -29,6 +29,7 @@ function fetchFiles(folder, outputElementId) {
     fetch(`/${folder}`)
         .then(response => response.json())
         .then(data => {
+            console.log(`Fetched files from ${folder}:`, data); // Log the output
             const outputElement = document.getElementById(outputElementId);
             // Clear the current file list
             outputElement.innerHTML = '';
