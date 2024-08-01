@@ -1,27 +1,30 @@
 body { 
-    font-family: 'Arial', sans-serif; 
-    background-color: #f0f0f0; 
+    font-family: 'Calibri', sans-serif; /* Changed font to Calibri */
+    background-color: black; 
+    color: blue; 
     text-align: center; 
 }
 
 .container {
     margin: auto;
     width: 80%;
+    padding-top: 20px; /* Padding to space from the title */
 }
 
 .directory {
     cursor: pointer;
-    margin: 10px 0;
-    position: relative;
+    margin: 0 20px; /* Adjust margin for centering */
+    display: inline-block; /* Change to inline-block for horizontal layout */
 }
 
 .directory-name {
     font-weight: bold;
+    font-size: 24px; /* Increased font size */
 }
 
 .files {
     display: none;
-    margin-left: 20px;
+    margin: 20px auto; /* Increased margin for greater separation between files */
 }
 
 .connection-line {
@@ -29,4 +32,14 @@ body {
     height: 10px;
     background-color: #ccc;
     margin: 0 auto;
+}
+
+a {
+    color: blue; /* Change link color to blue */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 18px; /* Increased font size */
+    display: inline-block;
+    width: 200px; /* Lengthened link width */
+    background-color: black; /* Added background color to links */
+    padding: 5px; /* Added padding for better clickability */
 }
