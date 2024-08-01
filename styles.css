@@ -1,19 +1,19 @@
 body { 
     font-family: 'Calibri', sans-serif; /* Changed font to Calibri */
     background-color: black; 
-    color: blue; 
+    color: rgb(100, 151, 167); 
     text-align: center; 
 }
 
 .container {
     margin: auto;
     width: 80%;
-    padding-top: 20px; /* Padding to space from the title */
+    padding-top: 50px; /* Padding to space from the title */
 }
 
 .directory {
     cursor: pointer;
-    margin: 0 20px; /* Adjust margin for centering */
+    margin: 0 400px; /* Adjust margin for centering */
     display: inline-block; /* Change to inline-block for horizontal layout */
 }
 
@@ -24,7 +24,7 @@ body {
 
 .files {
     display: none;
-    margin: 20px auto; /* Increased margin for greater separation between files */
+    margin: 10px auto; /* Increased margin for greater separation between files */
 }
 
 .connection-line {
@@ -35,7 +35,7 @@ body {
 }
 
 a {
-    color: blue; /* Change link color to blue */
+    color: rgb(255, 255, 255); /* Change link color to blue */
     text-decoration: none; /* Remove underline from links */
     font-size: 18px; /* Increased font size */
     display: inline-block;
