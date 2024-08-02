@@ -49,6 +49,13 @@
         .fa-folder, .fa-file {
             margin-right: 5px;
         }
+        .file a {
+            color: inherit; /* Inherit text color from parent */
+            text-decoration: none; /* Remove underline */
+        }
+        .file a:hover {
+            text-decoration: underline; /* Underline on hover for clarity */
+        }
     </style>
 </head>
 <body>
@@ -102,6 +109,10 @@
 
         document.getElementById('text-color').addEventListener('input', function(event) {
             document.body.style.color = event.target.value;
+            const links = document.querySelectorAll('.file a');
+            links.forEach(link => {
+                link.style.color = event.target.value;
+            });
         });
 
         function toggleFiles(folderId) {
