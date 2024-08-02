@@ -12,20 +12,18 @@ def generate_file_list_html(folder, files):
     return '\n'.join(f'<div>{link}</div>' for link in file_links)
 
 def ensure_placeholders(lines):
+    # Define the placeholders and the divs where they should be placed
     placeholders = [
-        ('<!-- Coding Projects Start -->\n', '<!-- Coding Projects End -->\n'),
-        ('<!-- Research Start -->\n', '<!-- Research End -->\n')
+        ('<!-- Coding Projects Start -->', '<!-- Coding Projects End -->', 'coding-projects-files'),
+        ('<!-- Research Start -->', '<!-- Research End -->', 'research-files')
     ]
-    for start, end in placeholders:
+    for start, end, div_id in placeholders:
         if start not in lines:
             print(f"Adding missing placeholder: {start.strip()}")
-            # Find the appropriate <div> for the placeholder
-            if 'Coding Projects' in start:
-                div_start = lines.index('<div class="files" id="coding-projects-files">\n')
-            else:
-                div_start = lines.index('<div class="files" id="research-files">\n')
-            lines.insert(div_start + 1, start)
-            lines.insert(div_start + 2, end)
+            # Find the index of the <div> by id
+            div_start = next(i for i, line in enumerate(lines) if f'id="{div_id}"' in line)
+            lines.insert(div_start + 1, f'{start}\n')
+            lines.insert(div_start + 2, f'{end}\n')
     return lines
 
 # Read the current index.html
