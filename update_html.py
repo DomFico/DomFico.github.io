@@ -7,8 +7,8 @@ directories = {
 }
 
 def generate_file_list_html(folder, files):
-    file_links = [f'<li><a href="{folder}/{file}">{file}</a></li>' for file in sorted(files)]
-    return '<ul>\n' + '\n'.join(file_links) + '\n</ul>'
+    file_links = [f'        <li><a href="{folder}/{file}">{file}</a></li>' for file in sorted(files)]
+    return '    <ul>\n' + '\n'.join(file_links) + '\n    </ul>'
 
 def remove_existing_placeholders(content):
     placeholders = [
@@ -31,7 +31,13 @@ def ensure_placeholders(content):
         div_start = content.find(f'id="{div_id}"')
         if div_start != -1:
             div_end = content.find('>', div_start) + 1
-            content = content[:div_end] + f'\n{start}\n{end}\n' + content[div_end:]
+            content = (
+                content[:div_end] + 
+                f'\n                <div class="connection-line"></div>\n' +
+                f'                {start}\n' +
+                f'                {end}\n' + 
+                content[div_end:]
+            )
     return content
 
 def update_index_html():
@@ -58,7 +64,7 @@ def update_index_html():
             end_index = content.find(end_placeholder)
             
             if start_index != -1 and end_index != -1:
-                content = content[:start_index] + '\n' + html_content + '\n' + content[end_index:]
+                content = content[:start_index] + '\n' + html_content + '\n                ' + content[end_index:]
 
         # Write the updated HTML back to the file
         with open('index.html', 'w') as file:
