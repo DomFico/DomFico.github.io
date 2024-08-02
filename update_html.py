@@ -11,11 +11,26 @@ def generate_file_list_html(folder, files):
     file_links = [f'<a href="{folder}/{file}">{file}</a>' for file in files]
     return '\n'.join(f'<div>{link}</div>' for link in file_links)
 
-try:
-    # Read the current index.html
-    with open('index.html', 'r') as file:
-        lines = file.readlines()
+def ensure_placeholders(lines):
+    placeholders = [
+        ('<!-- Coding Projects Start -->\n', '<!-- Coding Projects End -->\n'),
+        ('<!-- Research Start -->\n', '<!-- Research End -->\n')
+    ]
+    for start, end in placeholders:
+        if start not in lines:
+            print(f"Adding missing placeholder: {start.strip()}")
+            lines.insert(-1, start)
+            lines.insert(-1, end)
+    return lines
 
+# Read the current index.html
+with open('index.html', 'r') as file:
+    lines = file.readlines()
+
+# Ensure placeholders exist in the HTML
+lines = ensure_placeholders(lines)
+
+try:
     # Find the placeholders in the HTML where the file lists will be inserted
     coding_projects_start = lines.index('<!-- Coding Projects Start -->\n')
     coding_projects_end = lines.index('<!-- Coding Projects End -->\n')
