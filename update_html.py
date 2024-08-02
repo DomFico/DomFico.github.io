@@ -19,8 +19,8 @@ def ensure_placeholders(lines):
     for start, end in placeholders:
         if start not in lines:
             print(f"Adding missing placeholder: {start.strip()}")
-            lines.insert(-1, start)
-            lines.insert(-1, end)
+            lines.insert(lines.index('</body>\n'), start)
+            lines.insert(lines.index('</body>\n'), end)
     return lines
 
 # Read the current index.html
