@@ -11,6 +11,19 @@ def generate_file_list_html(folder, files):
     file_links = [f'<a href="{folder}/{file}">{file}</a>' for file in files]
     return '\n'.join(f'<div>{link}</div>' for link in file_links)
 
+def remove_existing_placeholders(lines):
+    # Define the placeholders to remove
+    placeholders = [
+        ('<!-- Coding Projects Start -->', '<!-- Coding Projects End -->'),
+        ('<!-- Research Start -->', '<!-- Research End -->')
+    ]
+    for start, end in placeholders:
+        while start in lines:
+            start_index = lines.index(start + '\n')
+            end_index = lines.index(end + '\n')
+            del lines[start_index:end_index + 1]
+    return lines
+
 def ensure_placeholders(lines):
     # Define the placeholders and the divs where they should be placed
     placeholders = [
@@ -18,9 +31,6 @@ def ensure_placeholders(lines):
         ('<!-- Research Start -->', '<!-- Research End -->', 'research-files')
     ]
     for start, end, div_id in placeholders:
-        # Remove existing placeholders
-        lines = [line for line in lines if start not in line and end not in line]
-
         # Find the index of the <div> by id and add placeholders
         div_start = next(i for i, line in enumerate(lines) if f'id="{div_id}"' in line)
         lines.insert(div_start + 1, f'{start}\n')
@@ -30,6 +40,9 @@ def ensure_placeholders(lines):
 # Read the current index.html
 with open('index.html', 'r') as file:
     lines = file.readlines()
+
+# Remove existing placeholders and their content
+lines = remove_existing_placeholders(lines)
 
 # Ensure placeholders exist in the HTML
 lines = ensure_placeholders(lines)
