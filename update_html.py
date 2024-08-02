@@ -19,8 +19,13 @@ def ensure_placeholders(lines):
     for start, end in placeholders:
         if start not in lines:
             print(f"Adding missing placeholder: {start.strip()}")
-            lines.insert(lines.index('</body>\n'), start)
-            lines.insert(lines.index('</body>\n'), end)
+            # Find the appropriate <div> for the placeholder
+            if 'Coding Projects' in start:
+                div_start = lines.index('<div class="files" id="coding-projects-files">\n')
+            else:
+                div_start = lines.index('<div class="files" id="research-files">\n')
+            lines.insert(div_start + 1, start)
+            lines.insert(div_start + 2, end)
     return lines
 
 # Read the current index.html
