@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to DomFico.github.io</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>My Work</h1>
-        
         <div class="directory" onclick="toggleFiles('coding-projects-files')">
             <span class="directory-name">Coding Projects</span>
             <div class="files" id="coding-projects-files">
-<!-- Coding Projects Start -->
-            <div><a href="Coding Projects/test.txt">test.txt</a></div>
-<!-- Coding Projects End -->
                 <div class="connection-line"></div>
                 <!-- Coding Projects Start -->
                 <!-- Coding Projects End -->
@@ -22,10 +20,6 @@
         <div class="directory" onclick="toggleFiles('research-files')">
             <span class="directory-name">Research</span>
             <div class="files" id="research-files">
-            <div><a href="Research/test.txt">test.txt</a></div>
-            <div><a href="Research/test2.txt">test2.txt</a></div>
-<!-- Research Start -->
-<!-- Research End -->
                 <div class="connection-line"></div>
                 <!-- Research Start -->
                 <!-- Research End -->
@@ -34,7 +28,6 @@
         <!-- Button to manually refresh files -->
         <button id="refresh-button">Refresh Files</button>
     </div>
-    
     <script src="main.js"></script>
 </body>
 </html>

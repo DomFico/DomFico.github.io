@@ -6,70 +6,68 @@ directories = {
     "Research": "Research"
 }
 
-# Function to generate HTML for a list of files
 def generate_file_list_html(folder, files):
-    file_links = [f'<a href="{folder}/{file}">{file}</a>' for file in files]
-    return '\n'.join(f'<div>{link}</div>' for link in file_links)
+    file_links = [f'<li><a href="{folder}/{file}">{file}</a></li>' for file in sorted(files)]
+    return '<ul>\n' + '\n'.join(file_links) + '\n</ul>'
 
-def remove_existing_placeholders(lines):
-    # Define the placeholders to remove
+def remove_existing_placeholders(content):
     placeholders = [
         ('<!-- Coding Projects Start -->', '<!-- Coding Projects End -->'),
         ('<!-- Research Start -->', '<!-- Research End -->')
     ]
     for start, end in placeholders:
-        while start in lines:
-            start_index = lines.index(start + '\n')
-            end_index = lines.index(end + '\n')
-            del lines[start_index:end_index + 1]
-    return lines
+        start_index = content.find(start)
+        end_index = content.find(end)
+        if start_index != -1 and end_index != -1:
+            content = content[:start_index] + content[end_index + len(end):]
+    return content
 
-def ensure_placeholders(lines):
-    # Define the placeholders and the divs where they should be placed
+def ensure_placeholders(content):
     placeholders = [
         ('<!-- Coding Projects Start -->', '<!-- Coding Projects End -->', 'coding-projects-files'),
         ('<!-- Research Start -->', '<!-- Research End -->', 'research-files')
     ]
     for start, end, div_id in placeholders:
-        # Find the index of the <div> by id and add placeholders
-        div_start = next(i for i, line in enumerate(lines) if f'id="{div_id}"' in line)
-        lines.insert(div_start + 1, f'{start}\n')
-        lines.insert(div_start + 2, f'{end}\n')
-    return lines
+        div_start = content.find(f'id="{div_id}"')
+        if div_start != -1:
+            div_end = content.find('>', div_start) + 1
+            content = content[:div_end] + f'\n{start}\n{end}\n' + content[div_end:]
+    return content
 
-# Read the current index.html
-with open('index.html', 'r') as file:
-    lines = file.readlines()
+def update_index_html():
+    try:
+        # Read the current index.html
+        with open('index.html', 'r') as file:
+            content = file.read()
 
-# Remove existing placeholders and their content
-lines = remove_existing_placeholders(lines)
+        # Remove existing placeholders and their content
+        content = remove_existing_placeholders(content)
 
-# Ensure placeholders exist in the HTML
-lines = ensure_placeholders(lines)
+        # Ensure placeholders exist in the HTML
+        content = ensure_placeholders(content)
 
-try:
-    # Find the placeholders in the HTML where the file lists will be inserted
-    coding_projects_start = lines.index('<!-- Coding Projects Start -->\n')
-    coding_projects_end = lines.index('<!-- Coding Projects End -->\n')
-    research_start = lines.index('<!-- Research Start -->\n')
-    research_end = lines.index('<!-- Research End -->\n')
+        # Generate the new HTML content for each directory
+        for directory_name, directory_path in directories.items():
+            files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+            html_content = generate_file_list_html(directory_path, files)
+            
+            start_placeholder = f'<!-- {directory_name} Start -->'
+            end_placeholder = f'<!-- {directory_name} End -->'
+            
+            start_index = content.find(start_placeholder) + len(start_placeholder)
+            end_index = content.find(end_placeholder)
+            
+            if start_index != -1 and end_index != -1:
+                content = content[:start_index] + '\n' + html_content + '\n' + content[end_index:]
 
-    # Generate the new HTML content for each directory
-    coding_projects_files = os.listdir(directories['Coding Projects'])
-    research_files = os.listdir(directories['Research'])
+        # Write the updated HTML back to the file
+        with open('index.html', 'w') as file:
+            file.write(content)
 
-    coding_projects_html = generate_file_list_html(directories['Coding Projects'], coding_projects_files)
-    research_html = generate_file_list_html(directories['Research'], research_files)
+        print("index.html has been updated successfully.")
+    except Exception as e:
+        print(f"Error: {e}")
+        print("Please ensure that the index.html file exists and has the correct structure.")
 
-    # Update the HTML content
-    lines[coding_projects_start + 1:coding_projects_end] = [coding_projects_html + '\n']
-    lines[research_start + 1:research_end] = [research_html + '\n']
-
-    # Write the updated HTML back to the file
-    with open('index.html', 'w') as file:
-        file.writelines(lines)
-
-    print("index.html has been updated successfully.")
-except ValueError as e:
-    print(f"Error: {e}")
-    print("Please ensure that the placeholders <!-- Coding Projects Start -->, <!-- Coding Projects End -->, <!-- Research Start -->, and <!-- Research End --> are present in the index.html file.")
+if __name__ == "__main__":
+    update_index_html()
