@@ -24,6 +24,12 @@ def ensure_placeholders(lines):
             div_start = next(i for i, line in enumerate(lines) if f'id="{div_id}"' in line)
             lines.insert(div_start + 1, f'{start}\n')
             lines.insert(div_start + 2, f'{end}\n')
+        else:
+            # Remove existing placeholders to prevent duplication
+            while start in lines:
+                start_index = lines.index(start + '\n')
+                end_index = lines.index(end + '\n')
+                del lines[start_index:end_index + 1]
     return lines
 
 # Read the current index.html
