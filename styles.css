@@ -1,30 +1,39 @@
 body { 
-    font-family: 'Calibri', sans-serif; /* Changed font to Calibri */
+    font-family: 'Calibri', sans-serif; 
     background-color: black; 
     color: rgb(100, 151, 167); 
     text-align: center; 
+    margin: 0; 
+    padding: 0; 
+    height: 100vh; 
 }
 
 .container {
     margin: auto;
     width: 80%;
-    padding-top: 50px; /* Padding to space from the title */
+    padding-top: 50px; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    height: 100%; 
 }
 
 .directory {
     cursor: pointer;
-    margin: 0 400px; /* Adjust margin for centering */
-    display: inline-block; /* Change to inline-block for horizontal layout */
+    margin: 5px 0; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
 }
 
 .directory-name {
     font-weight: bold;
-    font-size: 24px; /* Increased font size */
+    font-size: 24px; 
 }
 
 .files {
     display: none;
-    margin: 10px auto; /* Increased margin for greater separation between files */
+    margin: 10px 0; 
 }
 
 .connection-line {
@@ -35,11 +44,12 @@ body {
 }
 
 a {
-    color: rgb(255, 255, 255); /* Change link color to blue */
-    text-decoration: none; /* Remove underline from links */
-    font-size: 18px; /* Increased font size */
+    color: rgb(255, 255, 255); 
+    text-decoration: none; 
+    font-size: 18px; 
     display: inline-block;
-    width: 200px; /* Lengthened link width */
-    background-color: black; /* Added background color to links */
-    padding: 5px; /* Added padding for better clickability */
+    width: 200px; 
+    background-color: black; 
+    padding: 5px; 
+    margin: 2px 0; 
 }

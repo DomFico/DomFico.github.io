@@ -1,5 +1,6 @@
 function toggleFiles(fileId) {
     const filesDiv = document.getElementById(fileId);
+    // Toggle the display state of file list
     if (filesDiv.style.display === 'none' || filesDiv.style.display === '') {
         filesDiv.style.display = 'block';
     } else {
@@ -9,8 +10,8 @@ function toggleFiles(fileId) {
 
 // Function to fetch and display files
 function fetchAndDisplayFiles() {
-    fetchFiles('Coding Projects', 'coding-projects-list');
-    fetchFiles('Research', 'research-list');
+    fetchFiles('Coding Projects', 'coding-projects-files');
+    fetchFiles('Research', 'research-files');
 }
 
 // Function called by the refresh button
@@ -20,7 +21,7 @@ document.getElementById('refresh-button').addEventListener('click', fetchAndDisp
 document.addEventListener('DOMContentLoaded', (event) => {
     const fileDivs = document.querySelectorAll('.files');
     fileDivs.forEach(fileDiv => {
-        fileDiv.style.display = 'none';
+        fileDiv.style.display = 'none'; // Ensure files are hidden at load
     });
 });
 
