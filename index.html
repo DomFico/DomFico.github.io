@@ -10,12 +10,29 @@
             font-family: 'Courier New', Courier, monospace;
             background-color: #333; /* Initial dark background */
             color: white; /* Initial white text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         .container {
             padding: 20px;
+            flex: 1;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #444; /* Slightly lighter background for the footer */
         }
         .color-picker {
-            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .color-picker label {
+            margin-right: 5px;
         }
         .directory, .files {
             list-style-type: none;
@@ -61,12 +78,6 @@
 <body>
     <div class="container">
         <h1>My Work</h1>
-        <div class="color-picker">
-            <label for="background-color">Background Color:</label>
-            <input type="color" id="background-color" name="background-color" value="#333">
-            <label for="text-color">Text Color:</label>
-            <input type="color" id="text-color" name="text-color" value="#ffffff">
-        </div>
         <ul class="directory">
             <li><span></span><i class="fas fa-folder" onclick="toggleFiles('coding-projects-files')"></i> <span class="directory-name">Coding Projects</span>
                 <ul class="files" id="coding-projects-files" style="display: none;">
@@ -100,6 +111,17 @@
                 </ul>
             </li>
         </ul>
+    </div>
+    <div class="footer">
+        <div class="color-picker">
+            <label for="background-color">Background Color:</label>
+            <input type="color" id="background-color" name="background-color" value="#333">
+            <label for="text-color">Text Color:</label>
+            <input type="color" id="text-color" name="text-color" value="#ffffff">
+        </div>
+        <div style="display: flex; align-items: center;">
+            Created by Dominic Fico
+        </div>
     </div>
     <script>
         // JavaScript to handle color changes
