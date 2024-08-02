@@ -1,5 +1,5 @@
-function toggleFiles(fileId) {
-    const filesDiv = document.getElementById(fileId);
+function toggleFiles(folderId) {
+    const filesDiv = document.getElementById(folderId);
     // Toggle the display state of file list
     if (filesDiv.style.display === 'none' || filesDiv.style.display === '') {
         filesDiv.style.display = 'block';
