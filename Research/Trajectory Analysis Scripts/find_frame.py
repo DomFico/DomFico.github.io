@@ -1,13 +1,14 @@
 import re
 import numpy as np
 
+# Global variable to determine ranking criteria
+# Set to 'distance' to rank by lowest overall distance
+# Set to 'std_dev' to rank by similar distance values (lowest standard deviation)
+RANKING_CRITERIA = 'distance'  # Options: 'distance', 'std_dev'
+
 def read_distance_file(file_path):
     """
     Reads a distance file and returns a dictionary with frame as key and distance as value.
-    
-    The .txt files were generated using cpptraj with commands like:
-    distance :1032@OG1 :1056@PG out dist_res1032OG1_res1056PG.txt
-    The files contain lines in the format: 'frame distance'
     """
     distances = {}
     with open(file_path, 'r') as file:
@@ -25,10 +26,6 @@ def read_distance_file(file_path):
 def read_angle_file(file_path):
     """
     Reads an angle file and returns a dictionary with frame as key and angle as value.
-    
-    The .dat files were generated using cpptraj with commands like:
-    angle angle_set1 :461@OG1 :1032@HA :1032@CA out dephosphorylation_1032.dat
-    The files contain lines in the format: 'frame angle'
     """
     angles = {}
     with open(file_path, 'r') as file:
@@ -63,8 +60,11 @@ def find_ranked_frames_by_distance(dist_files):
     # Combine frame information, total distances, and standard deviations
     frame_info = [(frames[i], total_distances[i], distances[i], std_devs[i]) for i in range(len(frames))]
 
-    # Sort frames by standard deviation (ascending), then by total distance (ascending)
-    sorted_frames = sorted(frame_info, key=lambda x: (x[3], x[1]))
+    # Sort frames based on the chosen ranking criteria
+    if RANKING_CRITERIA == 'distance':
+        sorted_frames = sorted(frame_info, key=lambda x: x[1])  # Sort by total distance (ascending)
+    elif RANKING_CRITERIA == 'std_dev':
+        sorted_frames = sorted(frame_info, key=lambda x: x[3])  # Sort by standard deviation (ascending)
 
     return sorted_frames
 
@@ -77,7 +77,7 @@ def check_angles(frame, angle_data):
     for data in angle_data:
         angle_at_frame = data.get(frame, None)
         angles.append(angle_at_frame)
-        if angle_at_frame is None or angle_at_frame <= 140:
+        if angle_at_frame is None or angle_at_frame <= 170:
             return False, angles
     return True, angles
 
@@ -89,22 +89,21 @@ def check_distances(distances):
     return all(distance < 6 for distance in distances)
 
 def main():
-    # Define file paths for distance and angle files
-    dist_files = ['dist_res1032OG1_res1056PG.txt', 'dist_res1032OG1_res296CG.txt', 'dist_res1032CA_res461CA.txt']
-    angle_files = ['dephosphorylation_1032.dat', 'phosphorylation_1032.dat']
+    # Define file paths
+    dist_files = ['dist_res1033OG1_res1056PG.txt', 'dist_res1033OG1_res296CG.txt']
+    angle_files = ['phosphorylation_1033.dat']
 
     # Read and cache angle data
     angle_data = [read_angle_file(file) for file in angle_files]
 
-    # Find and rank frames by their total distance across all distance files
+    # Find ranked frames by distances
     ranked_frames = find_ranked_frames_by_distance(dist_files)
 
     # Iterate through ranked frames and check angles and distances
     for frame, total_distance, distances, std_dev in ranked_frames:
-        if check_distances(distances):  # Check if all distances are below 6 angstroms
-            angles_ok, angles = check_angles(frame, angle_data)  # Check if angles are above 140 degrees
+        if check_distances(distances):
+            angles_ok, angles = check_angles(frame, angle_data)
             if angles_ok:
-                # Print frames that meet all criteria
                 print(f"Frame {frame} meets all criteria with total distance {total_distance}, distances {distances}, angles {angles}, and std deviation {std_dev}")
 
 if __name__ == "__main__":
